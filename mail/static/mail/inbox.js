@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // By default, load the inbox
   load_mailbox('inbox');
   
-  fetch('/emails/inbox')
+  emailjson  = fetch('/emails/inbox')
   .then(response => response.json())
   .then(emails => {
     // Print emails
@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ... do something else with emails ...
   });
+
+  print("email json " + emailjson )
 
 });
 
@@ -59,8 +61,8 @@ function send_email() {
   subject = document.querySelector('#compose-subject').value
   body = document.querySelector('#compose-body').value
 
-  print(recipients)
-  print(subject)
+  console.log(recipients)
+  console.log(subject)
 
 
   fetch('/emails', {
