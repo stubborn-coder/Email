@@ -52,7 +52,7 @@ function load_mailbox(mailbox) {
     console.log(emails);
     emails.forEach(email => {
       document.querySelector('#emails-view').innerHTML += `<div class="email border border-success border-5">
-      <p class="bold">${email.sender}</p>
+      <a href="emails\\${email.id}"><p class="bold">${email.sender}</p></a>
       <p class="subject">${email.subject}</p>
   </div>`
       
