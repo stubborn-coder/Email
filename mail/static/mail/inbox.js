@@ -71,7 +71,7 @@ function load_mailbox(mailbox) {
             <p>Subject:${data.subject}</p>
             <p>Timestamp:${data.timestamp}</p>
             <p>Body: ${data.body}</p>
-            <button class="btn btn-primary">Reply</button>
+            <button class="btn btn-primary reply-btn">Reply</button>
             <button class="btn btn-primary archive-btn">${data.archived ? "Unarchive" : "Archive"}</button>
             <button class="btn btn-primary unread-btn">unread</button>`
 
@@ -107,10 +107,17 @@ function load_mailbox(mailbox) {
           document.querySelector('.reply-btn').addEventListener('click', () => {
             let recipients = data.recipients;
             let subject = "Re: "+ data.subject;
-            let body = data.body;
+            let body =`On ${data.timestamp} ${data.sender} wrote:
+            "${data.body}"
+            ---------------------------------------------`;
 
             compose_email();
-            
+
+            // Set the text
+            document.querySelector('#compose-recipients').value = recipients;
+            document.querySelector('#compose-subject').value = subject;
+            document.querySelector('#compose-body').value = body;
+
           })
     
             
