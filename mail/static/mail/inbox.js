@@ -44,8 +44,9 @@ function load_mailbox(mailbox) {
     emails.forEach(email => {
       
       document.querySelector('#emails-view').innerHTML += `<div class="email border border-success border-5 ${email.read ? '' : 'bg-secondary'}" id="${email.id}" data-sender=${email.sender} data-recipients=${email.recipients} data-subject=${email.subject} data-timestamp=${email.timestamp} data-read= ${email.read} data-id=${email.id}  data-archived=${email.archived}>
-      <p class="bold">${email.sender}</p>
-      <p class="subject">${email.subject}</p>
+      <p class="bold">From:${email.sender}</p>
+      <p class="subject">Subject:${email.subject}</p>
+      <p class="timestamp">${email.timestamp}</p>
       </div>`
       
     });
@@ -72,7 +73,7 @@ function load_mailbox(mailbox) {
             <p>Timestamp:${data.timestamp}</p>
             <p>Body: ${data.body}</p>
             <button class="btn btn-primary reply-btn">Reply</button>
-            ${mailbox !== 'sent' ? '<button class="btn btn-primary archive-btn">${data.archived ? "Unarchive" : "Archive"}</button>' : '' }
+            ${mailbox !== 'sent' ? `<button class="btn btn-primary archive-btn">${data.archived ? "Unarchive" : "Archive"}</button>` : '' }
             <button class="btn btn-primary unread-btn">unread</button>`
           
           //show archive button if it's in inbox or archived mail
