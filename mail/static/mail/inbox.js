@@ -10,17 +10,16 @@ document.addEventListener('DOMContentLoaded', function() {
   // By default, load the inbox
   load_mailbox('inbox');
   
-  emailjson  = fetch('/emails/inbox')
-  .then(response => response.json())
-  .then(emails => {
-    // Print emails
-    console.log("emails:");
-    console.log(emails);
-
-    // ... do something else with emails ...
-  });
-
-  print("email json " + emailjson )
+  // emailjson = fetch('/emails/inbox')
+  // .then(response => response.json())
+  // .then(emails => {
+  //   // Print emails
+  //   console.log(emails);
+  //   // ... do something else with emails ...
+  // });
+  // emailjson = emailjson.json();
+  // console.log('email json');
+  // console.log( emailjson);
 
 });
 
@@ -51,6 +50,13 @@ function load_mailbox(mailbox) {
     // Print emails
     console.log("emails:");
     console.log(emails);
+    emails.forEach(email => {
+      document.querySelector('#emails-view').innerHTML += `<div class="email border border-success border-5">
+      <p class="bold">${email.sender}</p>
+      <p class="subject">${email.subject}</p>
+  </div>`
+      
+    });
 
     // ... do something else with emails ...
   });
