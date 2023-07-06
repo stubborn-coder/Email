@@ -72,24 +72,26 @@ function load_mailbox(mailbox) {
             <p>Timestamp:${data.timestamp}</p>
             <p>Body: ${data.body}</p>
             <button class="btn btn-primary reply-btn">Reply</button>
-            <button class="btn btn-primary archive-btn">${data.archived ? "Unarchive" : "Archive"}</button>
+            ${mailbox !== 'sent' ? '<button class="btn btn-primary archive-btn">${data.archived ? "Unarchive" : "Archive"}</button>' : '' }
             <button class="btn btn-primary unread-btn">unread</button>`
 
-          document.querySelector('.archive-btn').addEventListener('click', () => {
+          if(mailbox !== 'sent'){
+            document.querySelector('.archive-btn').addEventListener('click', () => {
         
-            fetch('/emails/'+data.id, {
-              method: 'PUT',
-              body: JSON.stringify({
-                archived: data.archived ? false : true,
+              fetch('/emails/'+data.id, {
+                method: 'PUT',
+                body: JSON.stringify({
+                  archived: data.archived ? false : true,
+                })
               })
-            })
-            .then(response => {
-              console.log(response);
-              data.archived ? load_mailbox('archive') : load_mailbox('inbox')
-              
+              .then(response => {
+                console.log(response);
+                data.archived ? load_mailbox('archive') : load_mailbox('inbox')
+                
+              });
+  
             });
-
-          });
+          }
 
           document.querySelector('.unread-btn').addEventListener('click', () => {
             
