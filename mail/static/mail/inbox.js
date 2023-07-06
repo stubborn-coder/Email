@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ... do something else with emails ...
   });
 
-  print("email json " + emailjson )
+  console.log("email json " + emailjson )
 
 });
 
