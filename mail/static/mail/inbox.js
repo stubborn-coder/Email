@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
   document.querySelector('#compose').addEventListener('click', compose_email);
   document.querySelector('#compose-form').onsubmit = () => {send_email();}
-  // document.querySelector('#send-email').disabled = true;
+
   // By default, load the inbox
   load_mailbox('inbox');
 });
@@ -39,11 +39,10 @@ function load_mailbox(mailbox) {
   .then(response => response.json())
   .then(emails => {
     // Print emails
-    console.log("emails:");
-    console.log(emails);
+    
+    //loading emails for the specific box
     emails.forEach(email => {
       
-      console.log(email.read);
       document.querySelector('#emails-view').innerHTML += `<div class="email border border-success border-5 ${email.read ? '' : 'bg-secondary'}" id="${email.id}" data-sender=${email.sender} data-recipients=${email.recipients} data-subject=${email.subject} data-timestamp=${email.timestamp} data-read= ${email.read} data-id=${email.id}  data-archived=${email.archived}>
       <p class="bold">${email.sender}</p>
       <p class="subject">${email.subject}</p>
@@ -51,8 +50,9 @@ function load_mailbox(mailbox) {
       
     });
 
-     emails = document.querySelectorAll('.email');
 
+    //adding functionality when each email is clicked
+     emails = document.querySelectorAll('.email');
      emails.forEach( (email) => {
         
       email.addEventListener('click', () => {
@@ -74,7 +74,8 @@ function load_mailbox(mailbox) {
             <button class="btn btn-primary reply-btn">Reply</button>
             ${mailbox !== 'sent' ? '<button class="btn btn-primary archive-btn">${data.archived ? "Unarchive" : "Archive"}</button>' : '' }
             <button class="btn btn-primary unread-btn">unread</button>`
-
+          
+          //show archive button if it's in inbox or archived mail
           if(mailbox !== 'sent'){
             document.querySelector('.archive-btn').addEventListener('click', () => {
         
@@ -86,13 +87,14 @@ function load_mailbox(mailbox) {
               })
               .then(response => {
                 console.log(response);
-                data.archived ? load_mailbox('archive') : load_mailbox('inbox')
+                load_mailbox('inbox');
                 
               });
   
             });
           }
-
+          
+          //functionality for unread
           document.querySelector('.unread-btn').addEventListener('click', () => {
             
             fetch('emails/'+email.dataset.id, {
@@ -106,8 +108,9 @@ function load_mailbox(mailbox) {
              
           });
 
+          //functionality for reply
           document.querySelector('.reply-btn').addEventListener('click', () => {
-            let recipients = data.recipients;
+            let recipients = data.sender;
             let subject = "Re: "+ data.subject;
             let body =`On ${data.timestamp} ${data.sender} wrote:
             "${data.body}"
@@ -140,10 +143,10 @@ function load_mailbox(mailbox) {
 
     });
 
-    // ... do something else with emails ...
   });
 }
 
+//function for sending email
 function send_email() {
   let recipients = document.querySelector('#compose-recipients').value
   let subject = document.querySelector('#compose-subject').value
